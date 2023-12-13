@@ -1,0 +1,62 @@
+body {
+  background-color: black;
+  color: white;
+  font-family: monospace;
+}
+
+#canvas {
+  position: absolute;
+  box-sizing: border-box;
+  border-style: solid;
+  border-color: white;
+  width: 98vw;
+  height: 97vh;
+  top: 1.5vh;
+  left: 1vw;
+  overflow: hidden;
+}
+
+#canvas,
+#canvas * {
+  perspective: 400px;
+  transform-style: preserve-3d;
+}
+
+@keyframes radical {
+  0% {
+    transform: rotate3d(0, 1, 0, 0deg);
+  }
+
+  100% {
+    transform: rotate3d(0, 1, 0, 360deg);
+  }
+}
+
+#player {
+  position: absolute;
+  width: 6vw;
+  height: 6vh;
+  left: 50%;
+  top: 50vh;
+}
+
+#playermirror {
+  position: absolute;
+  width: 6vw;
+  height: 6vh;
+  background-color: red;
+  animation: radical 2s linear infinite;
+}
+
+.mainWall {
+  background-color: brown;
+}
+
+.topWall {
+  background-color: MediumSeaGreen;
+  transform: rotateX(90deg);
+}
+
+#grounds {
+  /*position: absolute;*/
+}
