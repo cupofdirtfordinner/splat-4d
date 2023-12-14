@@ -24,19 +24,27 @@ function plane(width, height, x, y) {
   const right = document.createElement("div")
 
   main.style.position = "absolute"
-  main.style.width = width + "vw"
-  main.style.height = height + "vh"
-  main.style.left = x + "vw"
-  main.style.top = y + "vh"
+  main.style.width = width + "vmin"
+  main.style.height = height + "vmin"
+  main.style.left = x + "vmin"
+  main.style.top = y + "vmin"
   main.classList.add("mainWall")
 
   top.style.position = "absolute"
-  top.style.width = width + "vw"
-  top.style.height = "10vh"
-  top.style.left = x + "vw"
-  top.style.top = (y - 5) + "vh"
+  top.style.width = width + "vmin"
+  top.style.height = "70px"
+  top.style.left = x + "vmin"
+  top.style.top = "calc("+y+"vmin - "+70/2+"px)"
   top.classList.add("topWall")
+  
+  bottom.style.position = "absolute"
+  bottom.style.width = width + "vmin"
+  bottom.style.height = "70px"
+  bottom.style.left = x + "vmin"
+  bottom.style.top = "calc("+y+"vmin + "+height+"vmin - "+70/2+"px)"
+  bottom.classList.add("bottomWall")
 
   CG.appendChild(main)
   CG.appendChild(top)
+  CG.appendChild(bottom)
 }
