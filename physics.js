@@ -1,6 +1,7 @@
-var speed = .04
+const canvas = document.getElementById("canvas")
+var speed = .04 //.04
 var jumpheight = 0
-var canjump = false
+var canjump = 0
 
 setInterval(function() {
   setpres()
@@ -13,7 +14,9 @@ var yvel = 0
 var xvel = 0
 var gravity = .00275
 
-var jumpheight = speed
+var preventspam = false
+  
+var jumpheight = 0
 
 function setpres() {
   var preypos = 0
@@ -51,18 +54,22 @@ function phys() {
     xvel -= speed
     direction = 1
   }
-
-  if (pressedKeys[87] && canjump == true) {
+  
+  if (canjump > 0) {
+    if (pressedKeys[87] ) {
+      gravity = 0
       jumpheight = 1
-      canjump = false
+      canjump -= 1
+    } else {
+      preventspam = true
+    }
   }
   
   if (pressedKeys[83]) {
-      yvel -= speed
+      yvel -= speed * 2
   }
   
-  spans[0].innerHTML = preypos + " x " + prexpos + "<br>" + ypos + " x " + xpos
-  
+  var causegravity = false
   var rectSelection = document.getElementById("floorCollider").getBoundingClientRect();
   for (let i = 0; i < document.querySelectorAll(".mainWall").length; i++) {
     var rect = document.querySelectorAll(".mainWall")[i].getBoundingClientRect();
@@ -71,25 +78,28 @@ function phys() {
       (rect.top < rectSelection.bottom) &&
       (rect.left < rectSelection.right))
     {
-      spans[i + 1].textContent = "Colliding!"
-      CG.style.marginTop = preypos + "vh" //CG.style.marginLeft = prexpos + "vw"
+      CG.style.marginTop = preypos + "vmin" 
       yvel *= -1
       gravity = 0
-      canjump = true
+      canjump = 2
     } else {
-      spans[i + 1].textContent = "nop!"
-      gravity += .00001
-      gravity *= 1.0002
-      yvel -= gravity
-      CG.style.marginTop = ypos + "vh"
+      causegravity = true
     }
-
+  
   }
-
-
-      
-      CG.style.marginLeft = xpos + "vw"
-          
-      pm.style.marginTop = "calc(50vh - "+ypos+"vh)"
-      pm.style.marginLeft = "calc(50vw - "+xpos+"vw)"
+if (causegravity) {
+  gravity += .00015
+  gravity *= (9.81 * 0.103)
+  yvel -= gravity
+  CG.style.marginTop = ypos + "vmin"
 }
+
+  
+  CG.style.marginLeft = xpos + "vmin"
+      
+  pm.style.marginTop = "calc(57vmin - "+ypos+"vmin)"
+  pm.style.marginLeft = "calc(48.5vmin - "+xpos+"vmin)"
+  
+  canvas.style.left = "calc(50% - "+ (canvas.getBoundingClientRect().right - canvas.getBoundingClientRect().left)/2 +"px)"
+}
+
