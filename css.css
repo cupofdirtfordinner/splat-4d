@@ -4,59 +4,86 @@ body {
   font-family: monospace;
 }
 
-#canvas {
+#testspandiv {
   position: absolute;
+}
+#canvas {
+  position:absolute;
   box-sizing: border-box;
   border-style: solid;
   border-color: white;
-  width: 98vw;
-  height: 97vh;
-  top: 1.5vh;
-  left: 1vw;
+  width: 98vmin;
+  height: 98vmin;
+  max-width: 99vw;
+  max-height: 99vh;
+  top: 0%;
+  left: calc(50% - 99vmin);
   overflow: hidden;
+}
+
+#parent {
+  position: relative;
+  background-color: rgba(0, 255, 255, .2);
 }
 
 #canvas,
 #canvas * {
-  perspective: 400px;
+  perspective: 300px;
+  perspective-origin: 50% 100%;
   transform-style: preserve-3d;
 }
 
 @keyframes radical {
   0% {
-    transform: rotate3d(0, 1, 0, 0deg);
+    transform: rotate3d(0, 1, 0, 0deg) translateY(-70px);
   }
 
   100% {
-    transform: rotate3d(0, 1, 0, 360deg);
+    transform: rotate3d(0, 1, 0, 360deg) translateY(-70px);
   }
 }
 
 #player {
   position: absolute;
-  width: 6vw;
-  height: 6vh;
+  width: 6vmin;
+  height: 6vmin;
   left: 50%;
-  top: 50vh;
+  top: 50vmin;
 }
 
 #playermirror {
   position: absolute;
-  width: 6vw;
-  height: 6vh;
+  width: 6vmin;
+  height: 6vmin;
   background-color: red;
+  background-image: url('textures/awesome guy.png');
   animation: radical 2s linear infinite;
+  background-size: 100% 100%;
 }
 
 .mainWall {
   background-color: brown;
+  background-image: url('textures/dirt.png');
+  background-repeat: repeat;
+  background-size: 50vmin 50vmin;
 }
 
 .topWall {
   background-color: MediumSeaGreen;
-  transform: rotateX(90deg);
+  background-image: url('textures/grass.jpg');
+  transform: rotateX(90deg) translateY(-30px);
+  background-repeat: repeat;
+  background-size: 50vmin 50vmin;
+}
+.bottomWall {
+  background-color: MediumSeaGreen;
+  background-image: url('textures/dirt.png');
+  transform: rotateX(90deg) translateY(-30px);
+  background-repeat: repeat;
+  background-size: 50vmin 50vmin;
 }
 
 #grounds {
   /*position: absolute;*/
+  transform: rotatey(0deg);
 }
