@@ -9,11 +9,27 @@ var pressedKeys = {};
 //adding player collision boxes
 const floorCollider = document.createElement("div")
 floorCollider.style.width = "100%"
-floorCollider.style.height = "1px"
-floorCollider.style.marginTop = "calc(100% - 1px)"
-floorCollider.style.backgroundColor = "rgba(255, 255, 0, .2)"
+floorCollider.style.height = "5px"
+floorCollider.style.marginTop = "100%"
+floorCollider.style.backgroundColor = "rgba(255, 255, 0, 1)"
 floorCollider.setAttribute("id", "floorCollider")
 player.appendChild(floorCollider)
+const wallCollider = document.createElement("div")
+wallCollider.style.width = "calc(100% - .5vmin)"
+wallCollider.style.height = "calc(100% - 1vmin)"
+wallCollider.style.marginLeft = ".25vmin"
+wallCollider.style.marginTop = "-6vmin"
+wallCollider.style.backgroundColor = "rgba(255, 255, 255, 1)"
+wallCollider.setAttribute("id", "wallCollider")
+player.appendChild(wallCollider)
+const wallCollider2 = document.createElement("div")
+wallCollider2.style.width = "calc(100% + .5vmin)"
+wallCollider2.style.height = "calc(100% - 1vmin)"
+wallCollider2.style.marginLeft = "-.25vmin"
+wallCollider2.style.marginTop = "-6vmin"
+wallCollider2.style.backgroundColor = "rgba(0, 255, 255, 1)"
+wallCollider2.setAttribute("id", "wallCollider2")
+player.appendChild(wallCollider2)
 
 //world builder
 function plane(width, height, x, y) {

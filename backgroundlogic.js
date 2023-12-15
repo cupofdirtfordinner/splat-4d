@@ -16,7 +16,6 @@ function Gradients(initRGB, toRGB, distance, dimension) {
 
 function stylish() {
   document.getElementById("canvas").style.background = "radial-gradient(circle, rgb("+Gradients( colors3d[0][0], colors3d[1][0], 350, 'x' )+") 0%, rgb("+Gradients( colors3d[0][1], colors3d[1][1], 300, 'x' )+") 50%, rgb("+Gradients( colors3d[0][2], colors3d[1][2], 450, 'x' )+") 100%)"
-  spans[0].textContent = JSON.stringify(colors3d[0][1])
 }
 
 var colors3d = [
