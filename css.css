@@ -4,6 +4,12 @@ body {
   font-family: monospace;
 }
 
+#grounds * {
+  box-sizing: border-box;
+  border-style: solid;
+  border-color: black;
+}
+
 #testspandiv {
   position: absolute;
 }
@@ -28,9 +34,6 @@ body {
 
 #canvas,
 #canvas * {
-  perspective: 300px;
-  perspective-origin: 50% 100%;
-  transform-style: preserve-3d;
 }
 
 @keyframes radical {
@@ -86,4 +89,7 @@ body {
 #grounds {
   /*position: absolute;*/
   transform: rotatey(0deg);
+  perspective: 200px;
+  perspective-origin: 50% 100%;
+  transform-style: preserve-3d;
 }
