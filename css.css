@@ -65,10 +65,11 @@ body {
 }
 
 .mainWall {
-  background-color: brown;
-  background-image: url('textures/dirt.png');
+  background-color: grey;
+  background-image: url('textures/slate.png');
   background-repeat: repeat;
   background-size: 50vmin 50vmin;
+  transform: translateZ(-35px);
 }
 
 .topWall {
@@ -79,17 +80,33 @@ body {
   background-size: 50vmin 50vmin;
 }
 .bottomWall {
-  background-color: MediumSeaGreen;
+  background-color: red;
   background-image: url('textures/dirt.png');
   transform: rotateX(90deg) translateY(-30px);
   background-repeat: repeat;
   background-size: 50vmin 50vmin;
 }
 
+.leftWall {
+  background-color: purple;
+  background-image: url('textures/dirt.png');
+  transform: rotateY(90deg) translateX(35px) translateZ(-35px);
+  background-repeat: repeat;
+  background-size: 50vmin 50vmin;
+}
+
+.rightWall {
+  background-color: purple;
+  transform-origin: 100% 0%;
+  background-image: url('textures/dirt.png');
+  transform: rotateY(90deg)translateX(70px) translateZ(-70px);
+  background-repeat: repeat;
+  background-size: 50vmin 50vmin;
+}
+
 #grounds {
   /*position: absolute;*/
-  transform: rotatey(0deg);
-  perspective: 200px;
+  perspective: 150px;
   perspective-origin: 50% 100%;
   transform-style: preserve-3d;
 }
