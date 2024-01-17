@@ -5,15 +5,15 @@ var canjump = 0
 
 setInterval(function() {
   setpres()
+  //cull()
   phys()
 }, 1);
 
-var variable = 0
 var wallcollisions = false
 var wallCollisions2 = false
 var direction = 0
 var lastdirection = 0
-var ypos = 0
+var ypos = 50
 var xpos = 0
 var yvel = 0
 var xvel = 0
@@ -28,30 +28,48 @@ var preventspam = false
 var preventspam2 = false
 var dash = 0
 var jumpheight = 0
+var zcam = 0
+var dashdecider = false
+
+
+var wallz = document.querySelectorAll(".mainWall")
+var culled = []
+
+var mask = document.getElementById("cullMask")
+function cull() {
+  culled = []
+  var rectSelection = mask.getBoundingClientRect();
+  var unculledWalls = []
+  for (let i = 0; i < unculled.length; i++) {
+    var rect = unculled[i].getBoundingClientRect();
+    if ((rect.bottom > rectSelection.top) &&
+      (rect.right > rectSelection.left) &&
+      (rect.top < rectSelection.bottom) &&
+      (rect.left < rectSelection.right))
+    {
+      unculledWalls.push(unculled[i])
+    } else {
+      culled = unculledWalls
+    }
+  }
+  //spans[0].textContent = JSON.stringify(unculledWalls)//JSON.stringify(unculled)
+  culled = unculledWalls
+}
 
 function collision(element) {
-  rectSelection = document.getElementById(element).getBoundingClientRect();
+  var rectSelection = document.getElementById(element).getBoundingClientRect();
   var GoodToGo = 0
   for (let i = 0; i < document.querySelectorAll(".mainWall").length; i++) {
     var rect = document.querySelectorAll(".mainWall")[i].getBoundingClientRect();
-    if (element == "wallCollider") {
-        
-        variable++
-        spans[1].textContent = rect.bottom > rectSelection.top
-        spans[2].textContent = rect.right > rectSelection.left
-        spans[3].textContent = rect.top < rectSelection.bottom
-        spans[4].textContent = rect.left < rectSelection.right
-      }
     if ((rect.bottom > rectSelection.top) &&
       (rect.right > rectSelection.left) &&
       (rect.top < rectSelection.bottom) &&
       (rect.left < rectSelection.right))
     {
       GoodToGo++
-    } else {
-      
     }
   }
+  spans[0].textContent=element
   return GoodToGo
 }
 
@@ -62,14 +80,14 @@ function setpres() {
 }
 
 function phys() {
-  if (collision("wallCollider")>-1){}
-  xvel /= 1.2
-  yvel /= 1.1
-  dash /= 1.05
+  //if (collision("wallCollider")>-1){}
+  xvel /= 1.2;
+  yvel /= 1.1;
+  dash /= 1.1;
   
   jumpheight /= 1.05
   ypos += (yvel + jumpheight)
-  xpos += xvel + (dash * direction)
+  xpos += xvel
   
   //controls
   window.onkeyup = function(e) {
@@ -78,6 +96,7 @@ function phys() {
   window.onkeydown = function(e) {
     pressedKeys[e.keyCode] = true;
   }
+
 
   if (pressedKeys[65]) {
     direction = 1
@@ -110,17 +129,24 @@ function phys() {
   }
   if (pressedKeys[16]) {
     if (dash < .1) {
-      //if (preventspam2) {
+      if (preventspam2) {
         gravity = -.005
-        dash = 2
+        dash = .8
         preventspam2 = false
-      //}
+      }
     }
   } else {
       preventspam2 = true
-    }
+  }
+
+  if (pressedKeys[73]) {
+    zcam += speed
+  }
+  if (pressedKeys[75]) {
+    zcam += speed
+  }
     
-  
+  //spans[0].textContent = wallCollisions
   
   if (collision("floorCollider")>0) {
    CG.style.marginTop = preypos + "vmin"
@@ -128,19 +154,26 @@ function phys() {
       gravity = -.001
       causegravity = true
       canjump = 1
+      spans[1].textContent = "if"
   } else {
       causegravity = true
+      spans[1].textContent = "else"
   }
   
   if (collision("wallCollider")>0) {
     xvel = prexvel * -.1
+    wallCollisions = true
   } else {
     prexvel = xvel
+    xvel += dash * direction
+    wallCollisions = false
   }
-  spans[0].textContent = variable
   
   if (collision("wallCollider2")) {
-    gravity = .01
+      canjump = 1
+    if (collision("floorCollider")<=0) {
+      gravity = 0.004
+    }
   } else {
     lastdirection = direction
   }
@@ -150,16 +183,21 @@ function phys() {
     gravity += .00015
     gravity *= (9.81 * 0.103)
     yvel -= gravity
-    CG.style.marginTop = ypos + "vmin"
+    CG.style.marginTop = ypos - 1.5 + "vmin"
   }
   
-  CG.style.marginLeft = xpos + "vmin"
+  if (collision("floorCollideXtra")>0) {
+    yvel = -2
+  }
+  
+  if (dash > 0.01) {
+    yvel = 0
+  }
+  CG.style.marginLeft = xpos + 3 + "vmin"
       
-  pm.style.marginTop = "calc(60vmin - "+ypos+"vmin)"
-  pm.style.marginLeft = "calc(48.5vmin - "+xpos+"vmin)"
-  
-  document.querySelector("#grounds").style.perspectiveOrigin = "calc(48.5vmin - "+xpos+"vmin) calc(20vmin - "+ypos+"vmin)"
-  
-  canvas.style.left = "calc(50% - "+ (canvas.getBoundingClientRect().right - canvas.getBoundingClientRect().left)/2 +"px)"
+  pm.style.marginTop = "calc(50vmin - "+ (ypos) +"vmin + 80px)"
+  pm.style.marginLeft = "calc(48.5vmin - "+ (xpos) +"vmin - 20px)"
+
+  document.querySelector("#grounds").style.perspectiveOrigin = "calc(48.5vmin - "+xpos+"vmin) calc(50vmin - "+ypos+"vmin)"
 }
 
