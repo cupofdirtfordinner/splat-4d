@@ -1,0 +1,192 @@
+<head>
+  <title>Level Editor</title>
+  <style>
+    body {
+      background-color: grey;
+      font-family: monospace;
+    }
+    @keyframes cool {
+      0% {background-color:red}
+      10% {background-color:rgb(30,255,255)}
+      20% {background-color:rgb(255,255,70)}
+      30% {background-color:#33FF33}
+      40% {background-color:green}
+      50% {background-color:teal}
+      60% {background-color:hotpink}
+      70% {background-color:#CCFFFF}
+      80% {background-color:#CC6600}
+      90% {background-color:#6699CC}
+      100% {background-color:red}
+    }
+    #thislookscool {
+      position: absolute;
+      width: 100vw;
+      height: 2em;
+      top: 0;
+      left: 0;
+      animation: cool 10s linear infinite;
+    }
+    
+    .rainbow {
+      animation: cool 10s linear infinite;
+    }
+    
+    #thislookscool input {
+      height: 2em;
+    }
+    
+    #editor {
+      position: absolute;
+      top: 2em;
+      
+      width: 75vw;
+      height: calc(100vh - 2em);
+      background-color: rgba(100, 0, 255, 0.2);
+      left: 0;
+      overflow: scroll;
+    }
+    
+    #ide {
+      position: absolute;
+      top: 2em;
+      
+      width: 25vw;
+      height: calc(100vh - 2em);
+      background-color: rgba(255, 255, 50, 0.2);
+      left: 75vw;
+      overflow-y: scroll;
+    }
+    
+    .gridspace {
+      position: absolute;
+      padding: 0;
+      margin: 0;
+      width:0.75vw;
+      height: 0.75vw;
+    }
+    
+    #ideSpan {
+      width: 25vw;
+      height: calc(70vh - 2em);
+    }
+    
+    input {
+      background-color: #ccc;
+      width: 5em;
+    }
+    
+    #testdiv {
+      position: absolute;
+      background-color: white;
+      top: 30px;
+      left: 60vw;
+    }
+    
+  </style>
+  <link rel="icon" type="image/x-icon" href="textures/leveleditoriconstretched.png">
+  
+</head>
+<body>
+  
+  
+  <div id="thislookscool">
+    <span>scale:</span><input type="text" id="scaleInput" value="0.3">
+    <span>offset:</span><input type="text" id="offsetx" value="0"><input type="text" id="offsety" value="0">
+    <span class="testspan"></span> <span class="testspan"></span>
+    </div>
+  <div id="editor"></div>
+  <div id="ide">
+    <textarea id="ideSpan" placeholder="size x  y | x  y | debug color/is a background object boolean"></textarea>
+    <button onclick="savetolocalstorage()">save to localstorage</button>
+    <button onclick="window.location.href ='leveleditor - preview.html';">load level</button>
+  </div>
+  
+  <script>
+
+const spans = document.querySelectorAll(".testspan")
+
+const editor = document.getElementById("editor")
+const ideSpan = document.getElementById("ideSpan")
+
+function calc() {
+  const scale = document.getElementById('scaleInput').value
+  const offsetx = document.getElementById('offsetx').value
+  const offsety = document.getElementById('offsety').value
+  editor.innerHTML = ""
+  
+  var txt = ideSpan.value.split("\n")
+  for (let i = 0; i < txt.length; i++) {
+    var line = txt[i].replace(/.+\(/, '').replace(/\).?/, '').split(",")
+    
+    bleh = document.createElement('div')
+    bleh.id = i
+    bleh.style.position = "absolute"
+    spans[0].textContent = txt[i].match(/.+?(?=\()/) == "plane"
+    if (txt[i].match(/.+?(?=\()/) == "plane") { //idk why case switch didnt work. fuck yall more ifs kys
+        if (line[0]) {
+        bleh.style.width = line[0]*scale+"vmin"
+        bleh.style.height = line[1]*scale+"vmin"
+        bleh.style.backgroundColor = "white"
+        }
+        if (line[3]) {
+        bleh.style.marginLeft = (parseInt(offsetx)+parseInt(line[2]))*scale+"vmin"
+        bleh.style.marginTop = (parseInt(offsety)+parseInt(line[3]))*scale+"vmin"
+        }
+        
+        if (line[4] == " true" || line[4] == "true") {
+          bleh.style.backgroundColor = "cyan"
+          bleh.style.zIndex = -1
+          bleh.style.opacity = 0.5
+        } else {
+          if (line[4]) {
+            bleh.style.backgroundColor = line[4]
+          } else {
+            bleh.style.backgroundColor = "white"
+          }
+        }
+    }
+    if (txt[i].match(/.+?(?=\()/) == "spikes") {
+        if (line[0]) {
+        bleh.style.width = line[0]*scale+"vmin"
+        bleh.style.height = 20*scale+"vmin"
+        bleh.style.backgroundColor = "red"
+        }
+        if (line[3]) {
+        bleh.style.marginLeft = (parseInt(offsetx)+parseInt(line[2]))*scale+"vmin"
+        bleh.style.marginTop = (parseInt(offsety)+parseInt(line[3]))*scale+"vmin"
+        }
+        
+        if (line[4] == " true" || line[4] == "true") {
+          bleh.style.backgroundColor = "cyan"
+          bleh.style.zIndex = -1
+          bleh.style.opacity = 0.5
+        } else {
+          if (line[4]) {
+            bleh.style.backgroundColor = line[4]
+          } else {
+            bleh.style.backgroundColor = "white"
+          }
+        }
+    }
+    if (txt[i].match(/.+?(?=\()/) == "player") {
+      bleh.style.width = 7*scale+"vmin"
+      bleh.style.height = 7*scale+"vmin"
+      bleh.style.backgroundColor = "cyan"
+      if (line[0]) {
+        bleh.style.marginLeft = line[0]*scale+40*scale+"vmin"
+        bleh.style.marginTop = -line[1]*scale-53*scale+"vmin"
+      }
+    }
+    editor.appendChild(bleh)
+  }
+}
+
+setInterval(function () {
+  calc()
+}, 10);
+
+function savetolocalstorage() {
+  localStorage.setItem("LevelEditorSave", ideSpan.value)
+}
+  </script>
+</body>

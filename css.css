@@ -2,15 +2,15 @@ body {
   background-color: black;
   color: white;
   font-family: monospace;
+  overflow: hidden;
 }
 
 #grounds * {
   box-sizing: border-box;
   border-style: solid;
   border-color: black;
-  border-width: 3px;
+  border-width: 1px;
 }
-
 #testspandiv {
   position: absolute;
 }
@@ -21,20 +21,34 @@ body {
   border-color: white;
   width: 98vmin;
   height: 98vmin;
+  zoom: 25%;
   max-width: 99vw;
   max-height: 99vh;
   top: 0%;
   left: calc(50vw - 49vmin);
   overflow: hidden;
 }
-
+#something {
+  transform: scale(4) translateX(37.55vw);
+  background-color: green;
+  z-index: 10000;
+}
 #parent {
   position: relative;
   background-color: rgba(0, 255, 255, .2);
 }
 
-#canvas,
-#canvas * {
+#testdiv {
+  position: absolute;
+  left: calc(50vw - 5px);
+  top: calc(50vh - 5px);
+  width: 10px;
+  height: 10px;
+  background-color: green;
+  z-index: 100000;
+}
+
+#canvas, #canvas * {
 }
 
 @keyframes radical {
@@ -51,12 +65,16 @@ body {
   visibility: hidden !important;
 }
 
+#options {
+  float: right;
+}
+
 #player {
   position: absolute;
   width: 6vmin;
   height: 6vmin;
-  left: 50%;
-  top: 50vmin;
+  left: 45vmin;
+  top: 47vmin;
 }
 
 #playermirror {
@@ -89,36 +107,34 @@ body {
   background-image: url('textures/dirt.png');
   transform: rotateX(90deg) translateY(-30px);
   background-repeat: repeat;
-  background-size: 50vmin 50vmin;
+  background-size: 10vmin 50vmin;
 }
 
 .leftWall {
   background-color: purple;
   background-image: url('textures/dirt.png');
-  transform: rotateY(90deg) translateX(35px) translateZ(-35px);
   background-repeat: repeat;
-  background-size: 50vmin 50vmin;
+  background-size: 10vmin 50vmin;
 }
 
 .rightWall {
   background-color: purple;
   transform-origin: 100% 0%;
   background-image: url('textures/dirt.png');
-  transform: rotateY(90deg)translateX(70px) translateZ(-70px);
   background-repeat: repeat;
-  background-size: 50vmin 50vmin;
+  background-size: 10vmin 50vmin;
 }
 
 @keyframes perspectiveAnim {
-  0%{perspective: 130px;}
-  100%{perspective: 160px;}
+  0%{perspective: 100px;}
+  100%{perspective: 300px;}
 }
 #grounds {
   /*position: absolute;*/
   perspective: 150px;
   perspective-origin: 50% 100%;
   transform-style: preserve-3d;
-  animation: perspectiveAnim 1s linear infinite;
+  /*animation: perspectiveAnim 1s linear infinite;*/
   animation-direction: alternate;
 }
 

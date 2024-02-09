@@ -1,6 +1,6 @@
 setInterval(function() {
   stylish()
-}, 1);
+}, 40);
 
 const x = "x"
 const y = "y"
@@ -16,6 +16,31 @@ function Gradients(initRGB, toRGB, distance, dimension) {
 
 function stylish() {
   document.getElementById("canvas").style.background = "radial-gradient(circle, rgb("+Gradients( colors3d[0][0], colors3d[1][0], 350, 'x' )+") 0%, rgb("+Gradients( colors3d[0][1], colors3d[1][1], 300, 'x' )+") 50%, rgb("+Gradients( colors3d[0][2], colors3d[1][2], 450, 'x' )+") 100%)"
+
+  //options
+  var performancetag = document.querySelectorAll(".performancetag")
+  if (document.getElementById("performance").checked) {
+    for (let i = 0; i < performancetag.length; i++) {
+      performancetag[i].style.display = "none"
+    }
+  } else {
+    for (let i = 0; i < performancetag.length; i++) {
+      performancetag[i].style.display = "block"
+    }
+  }
+  //disable anim
+  if (document.getElementById("performance").checked) {
+    document.getElementById("grounds").style.animation = ""
+  } else {
+    document.getElementById("grounds").style.animation = "perspectiveAnim 1s linear infinite"
+    document.getElementById("grounds").style.animationDirection = "alternate"
+    //document.getElementById("grounds").styl
+  }
+  if (document.getElementById("noclip").checked) {
+    noclip = true
+  } else {
+    noclip = false
+  }
 }
 
 var colors3d = [

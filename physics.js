@@ -7,14 +7,20 @@ setInterval(function() {
   setpres()
   //cull()
   phys()
-}, 1);
+  //player(50, 50)
+}, 2);
 
 var wallcollisions = false
 var wallCollisions2 = false
 var direction = 0
 var lastdirection = 0
-var ypos = 50
+var ypos = 0
 var xpos = 0
+var noclip = false
+function player(x, y) {
+  xpos = -x
+  ypos = y
+}
 var yvel = 0
 var xvel = 0
 var gravity = 0
@@ -77,13 +83,14 @@ function collision(element) {
 function setpres() {
   preypos = ypos
   preyvel = yvel
+  
 }
 
 function phys() {
-  //if (collision("wallCollider")>-1){}
+  spans[3].innerHTML = "x: "+xpos+"<br>y: "+ypos
   xvel /= 1.2;
   yvel /= 1.1;
-  dash /= 1.1;
+  dash /= 1.2;
   
   jumpheight /= 1.05
   ypos += (yvel + jumpheight)
@@ -107,7 +114,15 @@ function phys() {
     direction = -1
     xvel += direction * speed
   }
-  
+  if (noclip) {
+  speed = .1
+  if (pressedKeys[87]) {
+  yvel += .07
+  }
+  if (pressedKeys[83]) {
+  yvel -= .07
+  }
+  } else {
   if (pressedKeys[87]) {
     if (canjump > 0) {
       if (preventspam) {
@@ -118,6 +133,7 @@ function phys() {
       }
     }
   } else {
+    speed = .04
       preventspam = true
     }
   
@@ -131,7 +147,7 @@ function phys() {
     if (dash < .1) {
       if (preventspam2) {
         gravity = -.005
-        dash = .8
+        dash = 1.5
         preventspam2 = false
       }
     }
@@ -183,20 +199,22 @@ function phys() {
     gravity += .00015
     gravity *= (9.81 * 0.103)
     yvel -= gravity
-    CG.style.marginTop = ypos - 1.5 + "vmin"
   }
   
   if (collision("floorCollideXtra")>0) {
     yvel = -2
   }
   
-  if (dash > 0.01) {
+  if (dash > 0.001) {
     yvel = 0
+    ypos = ypos
   }
+  }//end noclip
   CG.style.marginLeft = xpos + 3 + "vmin"
       
-  pm.style.marginTop = "calc(50vmin - "+ (ypos) +"vmin + 80px)"
-  pm.style.marginLeft = "calc(48.5vmin - "+ (xpos) +"vmin - 20px)"
+  CG.style.marginTop = ypos - 1.5 + "vmin"
+  pm.style.marginTop = "calc(47vmin - "+ (ypos) +"vmin + 80px)"
+  pm.style.marginLeft = "calc(44vmin - "+ (xpos) +"vmin - 20px)"
 
   document.querySelector("#grounds").style.perspectiveOrigin = "calc(48.5vmin - "+xpos+"vmin) calc(50vmin - "+ypos+"vmin)"
 }

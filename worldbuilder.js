@@ -5,6 +5,7 @@ var pm = document.getElementById("playermirror")
 
 var pressedKeys = {};
 
+const deepness = 70
 //adding player collision boxes
 
 const floorCollider = document.createElement("div")
@@ -83,51 +84,62 @@ function plane(width, height, x, y, background) {
 
   top.style.position = "absolute"
   top.style.width = width + "vmin"
-  top.style.height = "70px"
+  top.style.height = deepness+"px"
   top.style.left = x + "vmin"
-  top.style.top = "calc("+y+"vmin - "+70/2+"px)"
+  top.style.top = "calc("+y+"vmin - "+deepness/2+"px)"
   top.classList.add("topWall")
+  top.classList.add("performancetag")
   
   bottom.style.position = "absolute"
   bottom.style.width = width + "vmin"
-  bottom.style.height = "70px"
+  bottom.style.height = deepness+"px"
   bottom.style.left = x + "vmin"
-  bottom.style.top = "calc("+y+"vmin + "+height+"vmin - "+70/2+"px)"
+  bottom.style.top = "calc("+y+"vmin + "+height+"vmin - "+deepness/2+"px)"
   bottom.classList.add("bottomWall")
+  bottom.classList.add("performancetag")
   
   left.style.position = "absolute"
-  left.style.width = "70px"
+  left.style.width = deepness+"px"
   left.style.height = height + "vmin"
   left.style.left = x + "vmin"
   left.style.top = +y+"vmin"
+  left.style.transform = "rotateY(90deg) translateX("+deepness/2+"px) translateZ(-"+deepness/2+"px)"
   left.classList.add("leftWall")
+  left.classList.add("performancetag")
   
   right.style.position = "absolute"
-  right.style.width = "70px"
+  right.style.width = deepness+"px"
   right.style.height = height + "vmin"
   right.style.left = x+width + "vmin"
   right.style.top = +y+"vmin"
+  right.style.transform = "rotateY(90deg)translateX("+deepness+"px) translateZ(-"+deepness+"px)"
   right.classList.add("rightWall")
+  right.classList.add("performancetag")
 
 
   if (background) {
     
     main.setAttribute("class", "mainBackground")
+    main.classList.add("performancetag")
     
     top.classList.add("topBackground")
     top.classList.remove("topWall")
+    top.style.transform = ""
     top.style.height = "200px"
     
     bottom.classList.add("bottomBackground")
     bottom.classList.remove("bottomWall")
+    bottom.style.transform = ""
     bottom.style.height = "200px"
     
     left.classList.add("leftBackground")
     left.classList.remove("leftWall")
+    left.style.transform = ""
     left.style.width = "200px"
     
     right.classList.remove("rightWall")
     right.classList.add("rightBackground")
+    right.style.transform = ""
     right.style.width = "200px"
   }
   
@@ -154,7 +166,8 @@ function spikes(width, height, x, y) {
     (createCones(height,(x + i*spikewidth*2),y ))
   }
 }
-function createCones(height, x, y) {
+function createCones(height, x, y, rotation) {
+  const p = document.createElement("div")
   const f1 = document.createElement("div")
   const f2 = document.createElement("div")
   const f3 = document.createElement("div")
@@ -163,7 +176,9 @@ function createCones(height, x, y) {
   const f6 = document.createElement("div")
   const f7 = document.createElement("div")
   
-  for (let i = 1; i < 8; i++) {
+  
+  
+  for (let i = 2; i < 6; i++) {
     const f = eval("f"+i)
     
     f.style.position = "absolute"
@@ -171,9 +186,9 @@ function createCones(height, x, y) {
     f.style.height = height + "vmin"
     f.style.left = x + "vmin"
     f.style.top = y + "vmin"
-    f.classList.add("spikes"+i)
     f.classList.add("spikes")
-    f.style.transform = "translateZ(-35px) translateY(-40px) translateX(20px) rotateY("+ (360 / 7 * i) +"deg) rotateX(17deg) translateY(50px)"
+    f.classList.add("performancetag")
+    f.style.transform = "translateZ(-35px) translateY(-40px) translateX(20px) rotateY("+ (360 / 7 * (i-4)) +"deg) rotateX(17deg) translateY(50px)"
     f.style.clipPath = "polygon(50% 0%, 0% 100%, 100% 100%)"
     CG.appendChild(f)
   }
