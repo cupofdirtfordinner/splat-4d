@@ -55,15 +55,15 @@ player.appendChild(wallCollider2)
 
 
 const cullMask = document.createElement("div")
-cullMask.style.width = "12vmin"
-cullMask.style.height = "12vmin"
-cullMask.style.marginLeft = "-3vmin"
-cullMask.style.marginTop = "-8vmin"
+cullMask.style.width = "40vmin"
+cullMask.style.height = "40vmin"
+cullMask.style.marginLeft = "-17.5vmin"
+cullMask.style.marginTop = "-20vmin"
 cullMask.style.backgroundColor = "rgba(0, 255, 255, .5)"
 cullMask.style.boxSizing = "border-box"
 cullMask.style.borderStyle = "dashed"
 cullMask.style.borderWidth = "1px"
-cullMask.setAttribute("id", "wallCollider2")
+cullMask.setAttribute("id", "cullMask")
 cullMask.setAttribute("class", "collider")
 player.appendChild(cullMask)
 
@@ -193,4 +193,17 @@ function createCones(height, x, y, rotation) {
     CG.appendChild(f)
   }
   
+}
+
+function npc(X,Y,name) {
+  const main = document.createElement("div")
+  //i could probably optimize this code by making it a function somehow, but it's fine. this works and doesn't really impact performance.
+  //i honestly cant think of a way to make this a function actually, because of the local variable "main"
+  main.style.position = "absolute"
+  main.style.left = X + "vmin"
+  main.style.top = Y + "vmin"
+  main.setAttribute("class", "npc")
+  main.style.backgroundImage = "url('textures/"+name+".png')"
+  CG.appendChild(main)
+  //if you put npc(0, 30, "grabdo", "1") then the dialogue would be the first set of lines in the "grabdo" section of "speech.json"
 }

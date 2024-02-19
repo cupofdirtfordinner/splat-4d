@@ -1,5 +1,4 @@
-//size x  y | x  y | is-a-background boolean
-player(1, 1)
+player(1, 300)
 plane(500, 20, 2, 92)
 plane(20, 120, 2, -20)
 plane(30, 30, 55, 20)
@@ -13,3 +12,4 @@ plane(30, 40, 100, 52, true)
 spikes(55, 20, 172, 72)
 plane(70,14,280,47)
 plane(10, 70, 380, 0)
+npc(50,85,"Grabaldoh")

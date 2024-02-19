@@ -1,4 +1,8 @@
+
 const canvas = document.getElementById("canvas")
+const dspan = document.getElementById("dialoguespan")
+const nspan = document.getElementById("namespan")
+const dbox = document.getElementById("dialoguebox")
 var speed = .04 //.04
 var jumpheight = 0
 var canjump = 0
@@ -32,16 +36,18 @@ var causegravity = false
 var escaper = 0
 var preventspam = false
 var preventspam2 = false
+var preventSpamE = false
 var dash = 0
 var jumpheight = 0
 var zcam = 0
 var dashdecider = false
-
+var Es = 0
+var Epreventspamender = 0 
 
 var wallz = document.querySelectorAll(".mainWall")
 var culled = []
 
-var mask = document.getElementById("cullMask")
+var mask = document.getElementById("cullMask") //this code is unused because it wouldn't have been that big of an optimization im pretty sure
 function cull() {
   culled = []
   var rectSelection = mask.getBoundingClientRect();
@@ -62,28 +68,39 @@ function cull() {
   culled = unculledWalls
 }
 
-function collision(element) {
+function collision(element, WithIn) {
+  var WithWhat = document.querySelectorAll(".mainWall");
+  if (WithIn) {
+    WithWhat = document.querySelectorAll(WithIn);
+  }
+  
   var rectSelection = document.getElementById(element).getBoundingClientRect();
-  var GoodToGo = 0
-  for (let i = 0; i < document.querySelectorAll(".mainWall").length; i++) {
-    var rect = document.querySelectorAll(".mainWall")[i].getBoundingClientRect();
+  var GoodToGo = 0;
+  var varI = -1;
+  for (let i = 0; i < WithWhat.length; i++) {
+    var rect = WithWhat[i].getBoundingClientRect();
     if ((rect.bottom > rectSelection.top) &&
       (rect.right > rectSelection.left) &&
       (rect.top < rectSelection.bottom) &&
       (rect.left < rectSelection.right))
     {
-      GoodToGo++
+      GoodToGo++;
+	  varI = i
     }
   }
-  spans[0].textContent=element
-  return GoodToGo
+  spans[0].textContent=element;
+  if (WithIn) {
+    return varI;
+  } else {
+    return GoodToGo
+  }
 }
 
 
 function setpres() {
   preypos = ypos
   preyvel = yvel
-  
+  //idk if these are ever used, not sure if i should delete. it's probably fine.
 }
 
 function phys() {
@@ -210,12 +227,55 @@ function phys() {
     ypos = ypos
   }
   }//end noclip
+  
+  //dialogue
+  //or i guess monologue? whatever
+  var ii = collision("cullMask", ".npc")
+  if (ii>-1) {
+	  //nspan.innerHTML = JSON.stringify(eval( npctable[ii].split(".").shift() ))
+    if (Es < 1) {
+      nspan.innerHTML = eval(npctable[ii].replace(/(?!.+?\.).+/, '') +".name")
+      dspan.innerHTML = JSON.stringify(eval(npctable[ii])[Math.round(Es)])
+    }
+    dbox.style.visibility = "visible"
+  } else {
+    nspan.innerHTML = ""
+    dspan.innerHTML = ""
+    dbox.style.visibility = "hidden"
+  	Es = 0
+  }
+  
+  if (pressedKeys[69]) { // E
+    Epreventspamender += 1
+    if (preventSpamE == false) {
+      Es += 1 //E's
+      preventSpamE = true
+      nspan.innerHTML = eval(npctable[ii].replace(/(?!.+?\.).+/, '') +".name")
+      dspan.innerHTML = JSON.stringify(eval(npctable[ii])[Math.round(Es)])
+      if (dspan.innerHTML == "undefined") {dspan.innerHTML = "<img style='width:200px;height:150px;transform: skew(-.1rad);opacity:.5;' src='https://media.istockphoto.com/id/1251099241/photo/i-dont-know-portrait-of-young-confused-man-in-blue-t-shirt-standing-and-shrugging-shoulders.jpg?s=612x612&w=0&k=20&c=qAViC7P6knDoES00ilJFJAtkUkBqTcs8oxWHe9P7mHI='>"}
+	  } else {
+      if (Epreventspamender > 250) {
+        Es += .08
+        nspan.innerHTML = eval(npctable[ii].replace(/(?!.+?\.).+/, '') +".name") //im just gonna copy and paste this. i dont even care
+        dspan.innerHTML = eval(npctable[ii])[Math.round(Es)]
+        if (dspan.innerHTML == "undefined") {dspan.innerHTML = "<img style='width:200px;height:150px;transform: skew(-.1rad);opacity:.5;' src='https://media.istockphoto.com/id/1251099241/photo/i-dont-know-portrait-of-young-confused-man-in-blue-t-shirt-standing-and-shrugging-shoulders.jpg?s=612x612&w=0&k=20&c=qAViC7P6knDoES00ilJFJAtkUkBqTcs8oxWHe9P7mHI='>"}
+	    }
+    }
+  } else {
+    preventSpamE = false;
+    Epreventspamender = 0
+  }
+
+
+  spans[5].textContent = Es
+  
+  //finalizing display
   CG.style.marginLeft = xpos + 3 + "vmin"
       
   CG.style.marginTop = ypos - 1.5 + "vmin"
   pm.style.marginTop = "calc(47vmin - "+ (ypos) +"vmin + 80px)"
   pm.style.marginLeft = "calc(44vmin - "+ (xpos) +"vmin - 20px)"
 
-  document.querySelector("#grounds").style.perspectiveOrigin = "calc(48.5vmin - "+xpos+"vmin) calc(50vmin - "+ypos+"vmin)"
+  document.querySelector("#grounds").style.perspectiveOrigin = "calc(46vmin - "+xpos+"vmin) calc(50vmin - "+ypos+"vmin)"
 }
 

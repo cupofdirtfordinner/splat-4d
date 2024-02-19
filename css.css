@@ -1,3 +1,17 @@
+@keyframes cool {
+  0% {background-color:red}
+  10% {background-color:rgb(30,255,255)}
+  20% {background-color:rgb(255,255,70)}
+  30% {background-color:#33FF33}
+  40% {background-color:green}
+  50% {background-color:teal}
+  60% {background-color:hotpink}
+  70% {background-color:#CCFFFF}
+  80% {background-color:#CC6600}
+  90% {background-color:#6699CC}
+  100% {background-color:red}
+}
+
 body {
   background-color: black;
   color: white;
@@ -21,7 +35,7 @@ body {
   border-color: white;
   width: 98vmin;
   height: 98vmin;
-  zoom: 25%;
+  zoom: 25%; /*responsible for weird vertex warp type look (also affects physics, makes them less accurateand allows for partial clipping)*/
   max-width: 99vw;
   max-height: 99vh;
   top: 0%;
@@ -29,7 +43,7 @@ body {
   overflow: hidden;
 }
 #something {
-  transform: scale(4) translateX(37.55vw);
+  transform: scale(4) translateX(37.55vw); /*responsible for weird vertex warp type look, part 2*/
   background-color: green;
   z-index: 10000;
 }
@@ -62,7 +76,8 @@ body {
 }
 
 .collider {
-  visibility: hidden !important;
+  visibility: visible;
+  visibility: hidden;
 }
 
 #options {
@@ -179,32 +194,34 @@ body {
   //opacity: 0%;
 }
 
-/*
-.spikes1 {
-  //transform: translateZ(-35px) rotatey(0deg);
+.npc {
+  width: 7vmin;
+  height: 7vmin;
+  background-color: brown;
+  transform: translateZ(-35px);
 }
 
-.spikes2 {
-  //transform: translateZ(-35px) rotatey(51.428deg);
+#dialoguebox {
+  position: absolute;
+  left: calc(100vw - 380px);
+  top: calc(100vh - 515px);
+  width: 350px;
+  height: 500px;
+  background-color: rgb(128, 0, 32);
+  outline-style: solid;
+  outline-color :black;
+  outline-offset: -5px;
+  padding: 7px;
+  text-align: center;
+  display: table;
+  opacity: .9;
 }
-
-.spikes3 {
-  //transform: translateZ(-35px) rotatey(102.857deg);
+#dialoguespan {
+  vertical-align: middle;
+  display: table-cell;
 }
-
-.spikes4 {
-  //transform: translateZ(-35px) rotatey(154.285deg);
+#namespan {
+  font-size:larger;
+  left: 10px;
+  text-shadow: -3px 3px 0px black;
 }
-
-.spikes5 {
-  //transform: translateZ(-35px) rotatey(205.714deg);
-}
-
-.spikes6 {
-  //transform: translateZ(-35px) rotatey(257.142deg);
-}
-
-.spikes7 {
-  //transform: translateZ(-35px) rotatey(308.571deg);
-}
-*/

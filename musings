@@ -1,0 +1,9 @@
+DD/MM/YY
+i've realized recently that literally all of the lag is because of CSS redraws being slow. I was trying to figure out optimizations for a while, but it was futile.
+my original suspect was the collision detection. and while that isn't the most optimized thing in the world, it turns out computers are really fucking good at
+arithmaticand comparisons and shit (because it is doing thousands of them every second). I'm also pretty sure that a lot of the lag is because of the 3D CSS,
+because it's fucking 3D, and I am using a chromebook with an intel celeron. Most of the lag is resolved when few objects are visible (thank god browsers seem to
+do that automatically), or when performance mode is on. Performance mode still allows a 3D "camera", but it's still way better because all the other elements
+are gone.
+---
+^14/2/24 - postscript: if I just code harder, i'm bound to get a girlfriend!!!! !!

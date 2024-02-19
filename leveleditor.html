@@ -82,6 +82,10 @@
       left: 60vw;
     }
     
+    marquee {
+      width: 100vw;
+    }
+    
   </style>
   <link rel="icon" type="image/x-icon" href="textures/leveleditoriconstretched.png">
   
@@ -96,25 +100,30 @@
     </div>
   <div id="editor"></div>
   <div id="ide">
-    <textarea id="ideSpan" placeholder="size x  y | x  y | debug color/is a background object boolean"></textarea>
+    <textarea id="ideSpan" placeholder="plane(sizeX,sizeY,X,Y,isBGobjBoolean);&#10;player(X,Y);&#10;spikes(sizeX,doesntmatter,X,Y)&#10;&#10;see more info in my code comments scattered across every file"></textarea>
     <button onclick="savetolocalstorage()">save to localstorage</button>
     <button onclick="window.location.href ='leveleditor - preview.html';">load level</button>
   </div>
-  
+  <script src="speech.js"></script>
   <script>
 
 const spans = document.querySelectorAll(".testspan")
-
+spans[0].textContent = "gay"
 const editor = document.getElementById("editor")
 const ideSpan = document.getElementById("ideSpan")
-
+ideSpan.value = localStorage.getItem("LevelEditorSave")
 function calc() {
   const scale = document.getElementById('scaleInput').value
   const offsetx = document.getElementById('offsetx').value
   const offsety = document.getElementById('offsety').value
   editor.innerHTML = ""
+  //in retrospect, why the fuck did i do this? i could have just reused the perfectly good worldbuilder script
+  //this is probably some of the worst looking javascript i've ever written, and now ive gone too far to turn backgroundColor
+  
   
   var txt = ideSpan.value.split("\n")
+  var npcs = (ideSpan.value.match(/npc/g) || []).length
+  var childamt = 0
   for (let i = 0; i < txt.length; i++) {
     var line = txt[i].replace(/.+\(/, '').replace(/\).?/, '').split(",")
     
@@ -176,6 +185,19 @@ function calc() {
         bleh.style.marginLeft = line[0]*scale+40*scale+"vmin"
         bleh.style.marginTop = -line[1]*scale-53*scale+"vmin"
       }
+    }
+    if (txt[i].match(/.+?(?=\()/) == "npc") {
+      bleh.style.width = 7*scale+"vmin"
+      bleh.style.height = 7*scale+"vmin"
+      bleh.style.backgroundColor = "lavender"
+      if (line[0]) {
+        bleh.style.marginLeft = line[0]*scale+"vmin"
+        bleh.style.marginTop = line[1]*scale+"vmin"
+      }
+      var blehchildren = document.createElement('div')
+      blehchildren.innerHTML = JSON.stringify(eval(npctablenames[childamt-1]))
+      bleh.appendChild(blehchildren)
+      childamt++
     }
     editor.appendChild(bleh)
   }

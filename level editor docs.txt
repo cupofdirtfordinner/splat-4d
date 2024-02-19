@@ -1,0 +1,23 @@
+| basics
+--> plane()
+the plane is basically just a regular block. it creates all the side bits that are 3D, too.
+args: X, Y, sizeX, sizeY, isabackgroundboolean
+should be self explanatory (except the last one). first two are size, the next two are position, and the last one makes it a background block. I wanted to add tons of decorations and stuff in the backdrop so I made that a thing, but it's not really fully featured per se.
+
+--> spikes()
+creates non-functioning spikes. they look cool (and tank performance), though.
+args: sizeX, doesntmatter, X, Y 
+works the same as a plane, except for sizeY. since all the spikes will be the same height, I just made what WOULD'VE been the sizeY argument not do anything. 
+
+--> player()
+specifies a player start position. the preview in the level editor isn't accurate, because I'm pretty sure the player's coords are different from everything else's, and I couldn't get it right. Probably an easy fix, I just don't feel like fixing it.
+args: X, Y
+just specifies a position. without it, the player spawns at 0, 0.
+--> npc()
+creates an npc with dialogue.
+args: X, Y, name
+first two specify a position. otherwise it creates an npc at 0,0, I'm pretty sure. The name determines what dialogue can be chosen, and you can take advantage of that (see: advanced-custom dialogue)
+
+| advanced
+----> custon dialogue
+since speech 
